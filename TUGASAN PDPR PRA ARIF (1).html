@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<style id="comic-sans-font">
+  html, body, button, input, select, textarea, option, table, th, td, div, span, p, h1, h2, h3, h4, h5, h6, label, a {
+    font-family: "Comic Neue", "Comic Sans MS", "Comic Sans", "Trebuchet MS", Arial, sans-serif !important;
+  }
+</style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mari Mengenal Kerjaya — Pra Arif</title>
+<style>
+:root{--blue:#168bd2;--pink:#ff72ae;--yellow:#ffd84d;--green:#4cbd78;--ink:#17324d}
+*{box-sizing:border-box}body{margin:0;font-family:"Comic Neue","Comic Sans MS","Comic Sans","Trebuchet MS",Arial,sans-serif;background:linear-gradient(180deg,#dff6ff,#fff7d9);color:var(--ink)}
+header{text-align:center;padding:22px 14px 18px;background:linear-gradient(120deg,#51c7f4,#a6e8d0);border-bottom:5px solid #fff}
+h1{margin:0;font-size:clamp(1.7rem,5vw,3rem);color:#fff;text-shadow:2px 3px 0 #287ab0}header p{margin:8px 0 0;font-weight:700}
+.wrap{max-width:980px;margin:auto;padding:16px}.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.pill{background:white;border:2px solid #cde7f4;border-radius:18px;padding:9px 15px;font-weight:800}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:800;transition:transform .12s}
+button:active{transform:scale(.97)}.tab{background:#fff;color:var(--ink);border:2px solid #c9e6f4}.tab.active{background:var(--blue);color:#fff}
+.panel{background:#ffffffed;border:3px solid white;border-radius:24px;padding:18px;box-shadow:0 8px 22px #5e9ab51c}
+h2{text-align:center;margin:4px 0 12px}.sub{text-align:center;color:#49677d}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin-top:16px}
+.job{background:#fff;border:3px solid #d7eef8;border-radius:20px;padding:12px 8px;text-align:center;cursor:pointer;min-height:155px}
+.job:hover{border-color:var(--pink);transform:translateY(-2px)}.emoji{font-size:3.3rem;display:block;line-height:1.25}.job strong{font-size:1.05rem}.job small{display:block;margin-top:5px;color:#577084}
+.question{font-size:1.25rem;text-align:center;font-weight:900;margin:16px 0}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.option{background:#edf8ff;border:2px solid #c4e6f6;color:var(--ink)}.option:hover{background:#d8f1ff}
+.feedback{text-align:center;font-size:1.08rem;font-weight:800;padding:12px;border-radius:14px;margin:12px 0}.good{background:#dcf8e5;color:#176d39}.bad{background:#fff0d6;color:#8c5100}
+.primary{background:#ff9d3c;color:#fff}.secondary{background:#eaf3f8;color:var(--ink)}.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.matchgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.matchcard{background:#fff;border:2px dashed #8bcde9;border-radius:16px;padding:12px;text-align:center}.matchcard select{width:100%;padding:9px;border-radius:10px;border:1px solid #b7d7e6;font:inherit;margin-top:8px}
+footer{text-align:center;padding:20px;color:#537083;font-size:.9rem}
+@media(max-width:480px){.wrap{padding:10px}.panel{padding:13px}.emoji{font-size:2.8rem}}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>\n
+<div id="nameGate" style="position:fixed;inset:0;background:linear-gradient(135deg,#dff6ff,#fff0f7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px">
+  <div style="background:#fff;border:4px solid #fff;border-radius:25px;box-shadow:0 10px 30px #0002;max-width:460px;width:100%;padding:25px;text-align:center">
+    <h1 style="color:#168bd2;text-shadow:none">🌟 Mari Mengenal Kerjaya 🌟</h1>
+    <h2>Selamat Datang!</h2>
+    <p>Masukkan nama murid sebelum mula bermain.</p>
+    <input id="studentName" type="text" placeholder="Nama murid" autocomplete="name" style="width:100%;padding:13px;border:2px solid #b8dfef;border-radius:12px;font-size:1.1rem;margin:12px 0">
+    <button id="startLearning" type="button" style="background:#ff9d3c;color:#fff;padding:12px 20px;border:0;border-radius:14px;font-weight:bold;cursor:pointer">Mula Belajar ▶</button>
+    <p id="nameError" style="color:#b42318;font-weight:bold" hidden>Sila masukkan nama murid dahulu.</p>
+  </div>
+</div>
+
+<header><h1>🌟 Mari Mengenal Kerjaya 🌟</h1><p>Permainan pembelajaran interaktif • Prasekolah Pra Arif</p><p>Kenali 12 kerjaya • Tugas, alat, situasi dan suku kata</p></header>
+<main class="wrap">
+<div class="stats"><div class="pill">⭐ Markah terkumpul: <span id="score">0</span></div><div class="pill">🎯 Aktiviti: <span id="progress">Kenali Kerjaya</span></div></div>
+<nav class="tabs">
+<button class="tab active" data-tab="kenal">🧑‍🚒 Kenali Kerjaya</button>
+<button class="tab" data-tab="kuiz">❓ Kuiz</button>
+<button class="tab" data-tab="alat">🧰 Teka Alat Kerjaya</button><button class="tab" data-tab="misi">🚀 Misi Kerjaya</button><button class="tab" data-tab="susun">🔤 Isi Suku Kata</button><button class="tab admin-tab" data-tab="admin">🔐 ADMIN</button>
+</nav>
+<section class="panel" id="kenal">
+<h2>Kenali Semua Kerjaya</h2><p class="sub">Tekan gambar untuk mengetahui tugas kerjaya dan sama ada memakai uniform atau tidak.</p>
+<div class="grid" id="jobs"></div><div class="feedback" id="jobInfo" hidden></div>
+</section>
+<section class="panel" id="kuiz" hidden>
+<h2>Kuiz Semua Kerjaya</h2><p class="sub">Pilih satu jawapan yang betul.</p>
+<div class="stats"><div class="pill">Soalan <span id="qnum">1</span> / 12</div></div>
+<div id="quizImage" class="emoji" style="text-align:center;font-size:4rem"></div><div class="question" id="question"></div><div class="options" id="options"></div>
+<div id="feedback" class="feedback" hidden></div><div class="controls"><button class="primary" id="next" hidden>Soalan Seterusnya ➜</button><button class="secondary" id="restart">🔄 Ulang Kuiz</button></div>
+</section>
+<section class="panel" id="alat" hidden>
+<h2>🧰 Teka Alat Kerjaya</h2><p class="sub">Lihat gambar alat dan pilih kerjaya yang menggunakannya. Aktiviti berkaitan kerjaya.</p>
+<div class="stats"><div class="pill">Soalan <span id="anum">1</span> / 12</div></div>
+<div class="emoji" id="toolPicture" style="text-align:center;font-size:5rem"></div>
+<div class="question" id="toolQuestion"></div><div class="options" id="toolOptions"></div>
+<div class="feedback" id="toolFeedback" hidden></div>
+<div class="controls"><button class="primary" id="toolNext" hidden>Seterusnya ➜</button><button class="secondary" id="toolReset">🔄 Ulang</button></div>
+</section>
+<section class="panel" id="misi" hidden>
+<h2>🚀 Misi Kerjaya</h2><p class="sub">Baca situasi dan pilih kerjaya yang sesuai. Semua misi berkaitan kerjaya.</p>
+<div class="stats"><div class="pill">Misi <span id="mnum">1</span> / 12</div></div>
+<div class="emoji" id="missionPicture" style="text-align:center;font-size:4.5rem"></div>
+<div class="question" id="missionQuestion"></div><div class="options" id="missionOptions"></div>
+<div class="feedback" id="missionFeedback" hidden></div>
+<div class="controls"><button class="primary" id="missionNext" hidden>Teruskan Misi ➜</button><button class="secondary" id="missionReset">🔄 Ulang</button></div>
+</section>
+<section class="panel" id="susun" hidden>
+<h2>✍️ Isi Suku Kata yang Hilang</h2><p class="sub">Lihat gambar dan pilih suku kata yang hilang untuk melengkapkan nama kerjaya.</p>
+<div class="stats"><div class="pill">Perkataan <span id="snum">1</span> / 12</div></div>
+<div class="emoji" id="spellPicture" style="text-align:center;font-size:4.5rem"></div>
+<div class="question" id="spellAnswer" style="letter-spacing:.15em;min-height:2rem"></div>
+<div class="options" id="letterOptions"></div><div class="feedback" id="spellFeedback" hidden></div>
+<div class="controls"><button class="primary" id="spellCheck">Semak Jawapan ✓</button><button class="primary" id="spellNext" hidden>Perkataan Seterusnya ➜</button><button class="secondary" id="spellReset">🔄 Cuba Lagi</button></div>
+</section>
+
+<section class="panel" id="admin" hidden>
+  <h2>🔐 Ruang Admin Guru</h2>
+  <p class="sub">Khas untuk guru menyemak rekod permainan murid pada peranti ini.</p>
+  <div id="adminLogin">
+    <label for="adminCode"><strong>Kata laluan Admin</strong></label>
+    <div class="controls">
+      <input id="adminCode" type="password" inputmode="numeric" placeholder="Masukkan kata laluan" style="max-width:260px;padding:12px;border:2px solid #c9e6f4;border-radius:12px;font:inherit">
+      <button class="primary" id="adminLoginBtn">Log Masuk</button>
+    </div>
+    <p id="adminLoginError" class="feedback bad" hidden>Kata laluan tidak tepat. Sila cuba lagi.</p>
+  </div>
+  <div id="adminDashboard" hidden>
+    <div class="stats">
+      <div class="pill">👧 Jumlah murid direkod: <span id="adminStudentCount">0</span></div>
+      <div class="pill">⭐ Purata markah: <span id="adminAverage">0</span></div>
+    </div>
+    <p class="sub">Rekod disimpan dalam pelayar/peranti yang digunakan. Ia tidak dihantar secara automatik kepada guru.</p>
+    <div class="controls">
+      <button class="secondary" id="adminRefresh">🔄 Muat Semula Rekod</button>
+      <button class="secondary" id="adminExport">⬇️ Muat Turun CSV</button>
+      <button class="secondary" id="adminLogout">Log Keluar</button>
+    </div>
+    <div style="overflow-x:auto;margin-top:14px">
+      <table id="adminTable" style="width:100%;border-collapse:collapse;background:white">
+        <thead><tr><th style="padding:10px;border:1px solid #d7e8f0">Nama Murid</th><th style="padding:10px;border:1px solid #d7e8f0">Kuiz</th><th style="padding:10px;border:1px solid #d7e8f0">Teka Alat</th><th style="padding:10px;border:1px solid #d7e8f0">Misi</th><th style="padding:10px;border:1px solid #d7e8f0">Jumlah Betul</th></tr></thead>
+        <tbody id="adminRows"><tr><td colspan="5" style="padding:12px;text-align:center">Belum ada rekod.</td></tr></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:12px">Nota: rekod hanya muncul selepas murid menyelesaikan aktiviti. Gunakan fail yang sama pada peranti yang sama untuk melihat rekod tersebut.</p>
+  </div>
+</section>
+
+</main>
+<footer>🌈 Belajar sambil bermain • Prasekolah SK Telok Pulai</footer>
+<script>
+const jobs=[
+ {name:"Doktor",emoji:"👩‍⚕️",place:"Hospital",task:"Doktor merawat orang yang sakit.",uniform:true,color:"#dff6ff"},
+ {name:"Guru",emoji:"👩‍🏫",place:"Sekolah",task:"Guru mengajar dan mendidik murid.",uniform:false,color:"#ffe4f1"},
+ {name:"Bomba",emoji:"🧑‍🚒",place:"Balai Bomba",task:"Anggota bomba membantu memadamkan kebakaran.",uniform:true,color:"#fff1b8"},
+ {name:"Polis",emoji:"👮",place:"Balai Polis",task:"Polis menjaga keselamatan masyarakat.",uniform:true,color:"#e1f8d8"},
+ {name:"Cef",emoji:"👨‍🍳",place:"Restoran",task:"Cef menyediakan makanan yang lazat.",uniform:true,color:"#eee4ff"},
+ {name:"Petani",emoji:"🧑‍🌾",place:"Ladang",task:"Petani menanam sayur-sayuran dan tanaman.",uniform:false,color:"#ffe8d3"},
+ {name:"Jururawat",emoji:"👩‍⚕️",place:"Hospital",task:"Jururawat membantu menjaga dan merawat pesakit.",uniform:true,color:"#fce4ec"},
+ {name:"Posmen",emoji:"📮",place:"Pejabat Pos",task:"Posmen menghantar surat dan bungkusan.",uniform:true,color:"#e3f2fd"},
+ {name:"Nelayan",emoji:"🎣",place:"Laut",task:"Nelayan menangkap ikan.",uniform:false,color:"#e0f7fa"},
+ {name:"Pelukis",emoji:"🎨",place:"Studio",task:"Pelukis menghasilkan lukisan.",uniform:false,color:"#fff3e0"},
+ {name:"Tukang Kebun",emoji:"🪴",place:"Taman",task:"Tukang kebun menjaga pokok dan taman.",uniform:false,color:"#e8f5e9"},
+ {name:"Pemandu",emoji:"🚌",place:"Jalan Raya",task:"Pemandu membawa penumpang ke destinasi.",uniform:false,color:"#f3e5f5"}
+];
+let score=0, q=0, answered=false, earned=new Set();
+const $=id=>document.getElementById(id);
+function updateScore(){ $("score").textContent=score; }
+function showTab(tab){
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+ ["kenal","kuiz","alat","misi","susun","admin"].forEach(t=>$(t).hidden=t!==tab);
+ $("progress").textContent=({kenal:"Kenali Kerjaya",kuiz:"Kuiz",alat:"Teka Alat",misi:"Misi Kerjaya",susun:"Isi Suku Kata",admin:"Admin Guru"})[tab];
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+$("jobs").innerHTML=jobs.map((j,i)=>`<button class="job" data-job="${i}" style="background:${j.color}"><span class="emoji">${j.emoji}</span><strong>${j.name}</strong><small>${j.uniform ? "👔 Memakai uniform" : "👕 Tidak semestinya beruniform"}</small></button>`).join("");
+document.querySelectorAll(".job").forEach(b=>b.addEventListener("click",()=>{
+ const j=jobs[+b.dataset.job],info=$("jobInfo");info.hidden=false;info.className="feedback good";info.textContent=`${j.emoji} ${j.name}: ${j.task}`;
+}));
+const questions=[
+ {emoji:"👩‍⚕️",text:"Siapakah yang merawat orang sakit?",opts:["Doktor","Petani","Cef"],ans:"Doktor"},
+ {emoji:"👩‍🏫",text:"Siapakah yang mengajar murid di sekolah?",opts:["Polis","Guru","Bomba"],ans:"Guru"},
+ {emoji:"🧑‍🚒",text:"Siapakah yang membantu memadamkan kebakaran?",opts:["Cef","Doktor","Bomba"],ans:"Bomba"},
+ {emoji:"👮",text:"Siapakah yang menjaga keselamatan masyarakat?",opts:["Polis","Petani","Guru"],ans:"Polis"},
+ {emoji:"👨‍🍳",text:"Siapakah yang menyediakan makanan di restoran?",opts:["Bomba","Cef","Doktor"],ans:"Cef"},
+ {emoji:"🧑‍🌾",text:"Siapakah yang menanam sayur-sayuran di ladang?",opts:["Petani","Polis","Guru"],ans:"Petani"},
+ {emoji:"👩‍⚕️",text:"Siapakah yang membantu menjaga dan merawat pesakit?",opts:["Pelukis","Jururawat","Posmen"],ans:"Jururawat"},
+ {emoji:"📮",text:"Siapakah yang menghantar surat dan bungkusan?",opts:["Pemandu","Nelayan","Posmen"],ans:"Posmen"},
+ {emoji:"🎣",text:"Siapakah yang menangkap ikan di laut?",opts:["Nelayan","Tukang Kebun","Doktor"],ans:"Nelayan"},
+ {emoji:"🎨",text:"Siapakah yang menghasilkan lukisan?",opts:["Cef","Pelukis","Polis"],ans:"Pelukis"},
+ {emoji:"🪴",text:"Siapakah yang menjaga pokok dan taman?",opts:["Posmen","Guru","Tukang Kebun"],ans:"Tukang Kebun"},
+ {emoji:"🚌",text:"Siapakah yang membawa penumpang ke destinasi?",opts:["Pemandu","Jururawat","Petani"],ans:"Pemandu"}
+];
+function renderQuiz(){
+ answered=false;$("qnum").textContent=q+1;$("quizImage").textContent=questions[q].emoji;$("question").textContent=questions[q].text;
+ $("feedback").hidden=true;$("next").hidden=true;
+ $("options").innerHTML=questions[q].opts.map(o=>`<button class="option">${o}</button>`).join("");
+ [...$("options").children].forEach(btn=>btn.addEventListener("click",()=>{
+  if(answered)return;answered=true;const correct=btn.textContent===questions[q].ans;
+  if(correct){score++;updateScore();$("feedback").className="feedback good";$("feedback").textContent="🎉 Betul! Syabas, adik bijak!";}
+  else{$("feedback").className="feedback bad";$("feedback").textContent=`Cuba lagi! Jawapan yang betul ialah ${questions[q].ans}.`;}
+  $("feedback").hidden=false;$("next").hidden=false;
+  [...$("options").children].forEach(x=>{x.disabled=true;if(x.textContent===questions[q].ans)x.style.background="#d9f8e4";});
+  $("next").textContent=q===questions.length-1?"Lihat Keputusan 🏆":"Soalan Seterusnya ➜";
+ }));
+}
+$("next").addEventListener("click",()=>{
+ if(q<questions.length-1){q++;renderQuiz();}
+ else{$("quizImage").textContent="🏆";$("question").textContent=`Tahniah! Markah keseluruhan kuiz: ${score}.`; $("options").innerHTML="";$("feedback").hidden=true;$("next").hidden=true;try{const nm=localStorage.getItem("kerjayaNamaMurid")||"";if(nm){const k="kerjayaAdminRecords";const all=JSON.parse(localStorage.getItem(k)||"{}");if(!all[nm])all[nm]={kuiz:"-",alat:"-",misi:"-",total:0};all[nm].kuiz=score+"/12";all[nm].total=["kuiz","alat","misi"].reduce((n,f)=>n+(parseInt(all[nm][f],10)||0),0);all[nm].updated=new Date().toLocaleString("ms-MY");localStorage.setItem(k,JSON.stringify(all));}}catch(e){}}
+});
+$("restart").addEventListener("click",()=>{q=0;score=0;window.__quizDone=false;updateScore();renderQuiz();});
+
+const tools=[
+{emoji:"🩺",text:"Siapakah menggunakan stetoskop untuk memeriksa pesakit?",opts:["Doktor","Guru","Petani"],ans:"Doktor"},
+{emoji:"📚",text:"Siapakah menggunakan buku untuk mengajar murid?",opts:["Polis","Guru","Cef"],ans:"Guru"},
+{emoji:"🧯",text:"Siapakah menggunakan alat pemadam api ketika kebakaran?",opts:["Bomba","Doktor","Petani"],ans:"Bomba"},
+{emoji:"🚓",text:"Siapakah menggunakan kereta peronda untuk menjaga keselamatan?",opts:["Cef","Polis","Guru"],ans:"Polis"},
+{emoji:"🍳",text:"Siapakah menggunakan kuali untuk memasak makanan?",opts:["Petani","Cef","Bomba"],ans:"Cef"},
+{emoji:"🚜",text:"Siapakah menggunakan traktor di ladang?",opts:["Doktor","Guru","Petani"],ans:"Petani"},
+{emoji:"🌡️",text:"Siapakah boleh menggunakan termometer untuk membantu memeriksa suhu pesakit?",opts:["Jururawat","Pelukis","Nelayan"],ans:"Jururawat"},
+{emoji:"✉️",text:"Siapakah membawa beg surat untuk menghantar surat?",opts:["Pemandu","Posmen","Cef"],ans:"Posmen"},
+{emoji:"🎣",text:"Siapakah menggunakan joran atau jaring untuk menangkap ikan?",opts:["Nelayan","Tukang Kebun","Doktor"],ans:"Nelayan"},
+{emoji:"🖌️",text:"Siapakah menggunakan berus dan cat untuk menghasilkan lukisan?",opts:["Pelukis","Polis","Posmen"],ans:"Pelukis"},
+{emoji:"🪴",text:"Siapakah menggunakan penyiram untuk menyiram pokok?",opts:["Guru","Tukang Kebun","Pemandu"],ans:"Tukang Kebun"},
+{emoji:"🚌",text:"Siapakah menggunakan bas untuk membawa penumpang?",opts:["Jururawat","Petani","Pemandu"],ans:"Pemandu"}
+];
+const missions=[
+{emoji:"🤒🏥",text:"Ali demam dan perlu diperiksa. Siapakah yang merawat Ali?",opts:["Cef","Doktor","Polis"],ans:"Doktor"},
+{emoji:"🏫📖",text:"Siti mahu belajar membaca. Siapakah yang mengajarnya?",opts:["Guru","Petani","Bomba"],ans:"Guru"},
+{emoji:"🔥🏠",text:"Ada kebakaran di sebuah rumah. Siapakah yang membantu memadamkannya?",opts:["Polis","Cef","Bomba"],ans:"Bomba"},
+{emoji:"🚦🚓",text:"Penduduk memerlukan bantuan menjaga keselamatan. Siapakah yang membantu?",opts:["Polis","Doktor","Petani"],ans:"Polis"},
+{emoji:"🍲🍽️",text:"Restoran memerlukan seseorang untuk menyediakan makanan. Siapakah orang itu?",opts:["Guru","Cef","Bomba"],ans:"Cef"},
+{emoji:"🌽🥬",text:"Ladang mahu menanam sayur-sayuran. Siapakah yang melakukannya?",opts:["Petani","Polis","Doktor"],ans:"Petani"},
+{emoji:"🏥🩹",text:"Pesakit memerlukan bantuan penjagaan di hospital. Siapakah yang membantu merawatnya?",opts:["Jururawat","Pelukis","Posmen"],ans:"Jururawat"},
+{emoji:"📬✉️",text:"Sebuah keluarga menunggu surat yang dihantar ke rumah. Siapakah yang menghantarnya?",opts:["Pemandu","Posmen","Cef"],ans:"Posmen"},
+{emoji:"🌊🐟",text:"Pasar memerlukan ikan segar dari laut. Siapakah yang menangkap ikan?",opts:["Nelayan","Tukang Kebun","Doktor"],ans:"Nelayan"},
+{emoji:"🖼️🎨",text:"Sekolah mahu gambar mural yang cantik. Siapakah yang boleh melukisnya?",opts:["Pelukis","Polis","Posmen"],ans:"Pelukis"},
+{emoji:"🌳🌷",text:"Taman sekolah perlu disiram dan dijaga. Siapakah yang melakukannya?",opts:["Guru","Tukang Kebun","Pemandu"],ans:"Tukang Kebun"},
+{emoji:"🚌👨‍👩‍👧",text:"Murid menaiki bas untuk pergi ke lawatan. Siapakah yang membawa bas?",opts:["Pemandu","Jururawat","Petani"],ans:"Pemandu"}
+];
+function setupGame(prefix, data){
+ let idx=0,locked=false,activityScore=0;
+ const names=prefix==="tool"?["anum","toolPicture","toolQuestion","toolOptions","toolFeedback","toolNext","toolReset"]:["mnum","missionPicture","missionQuestion","missionOptions","missionFeedback","missionNext","missionReset"];
+ const [num,pic,question,opts,feedback,next,reset]=names.map($);
+ function render(){
+ locked=false;num.textContent=idx+1;pic.textContent=data[idx].emoji;question.textContent=data[idx].text;
+ feedback.hidden=true;next.hidden=true;
+ opts.innerHTML=data[idx].opts.map(x=>`<button class="option">${x}</button>`).join("");
+ [...opts.children].forEach(b=>b.onclick=()=>{
+  if(locked)return;locked=true;let ok=b.textContent===data[idx].ans;
+  if(ok){score++;activityScore++;updateScore();}
+  feedback.className="feedback "+(ok?"good":"bad");
+  feedback.textContent=ok?"🎉 Tepat! Syabas!":"Belum tepat. Jawapan yang betul ialah "+data[idx].ans+".";
+  feedback.hidden=false;next.hidden=false;next.textContent=idx===data.length-1?"Lihat Keputusan 🏆":"Seterusnya ➜";
+  [...opts.children].forEach(x=>{x.disabled=true;if(x.textContent===data[idx].ans)x.style.background="#d9f8e4";});
+ });
+ }
+ next.onclick=()=>{if(idx<data.length-1){idx++;render();}else{pic.textContent="🏆";question.textContent="Tahniah! Anda berjaya menamatkan permainan.";opts.innerHTML="";feedback.hidden=true;next.hidden=true;try{const nm=localStorage.getItem("kerjayaNamaMurid")||"";if(nm){const k="kerjayaAdminRecords";const all=JSON.parse(localStorage.getItem(k)||"{}");if(!all[nm])all[nm]={kuiz:"-",alat:"-",misi:"-",total:0};const field=prefix==="tool"?"alat":"misi";all[nm][field]=activityScore+"/12";all[nm].total=["kuiz","alat","misi"].reduce((n,f)=>n+(parseInt(all[nm][f],10)||0),0);all[nm].updated=new Date().toLocaleString("ms-MY");localStorage.setItem(k,JSON.stringify(all));}}catch(e){}}};
+ reset.onclick=()=>{idx=0;render();};
+ render();
+}
+setupGame("tool",tools);setupGame("mission",missions);
+let si=0,chosenSyllable="";
+const syllableWords=[
+ {word:"DOKTOR",emoji:"👩‍⚕️",parts:["DOK","TOR"],missing:1},
+ {word:"GURU",emoji:"👩‍🏫",parts:["GU","RU"],missing:0},
+ {word:"BOMBA",emoji:"🧑‍🚒",parts:["BOM","BA"],missing:1},
+ {word:"POLIS",emoji:"👮",parts:["PO","LIS"],missing:0},
+ {word:"CEF",emoji:"👨‍🍳",parts:["CEF"],missing:0},
+ {word:"PETANI",emoji:"🧑‍🌾",parts:["PE","TA","NI"],missing:1},
+ {word:"JURURAWAT",emoji:"👩‍⚕️",parts:["JU","RU","RA","WAT"],missing:2},
+ {word:"POSMEN",emoji:"📮",parts:["POS","MEN"],missing:1},
+ {word:"NELAYAN",emoji:"🎣",parts:["NE","LA","YAN"],missing:1},
+ {word:"PELUKIS",emoji:"🎨",parts:["PE","LU","KIS"],missing:1},
+ {word:"KEBUN",emoji:"🪴",parts:["KE","BUN"],missing:0},
+ {word:"PEMANDU",emoji:"🚌",parts:["PE","MAN","DU"],missing:1}
+];
+function renderSpell(){
+ chosenSyllable="";
+ const item=syllableWords[si], answer=item.parts[item.missing];
+ $("snum").textContent=si+1;
+ $("spellPicture").textContent=item.emoji;
+ $("spellFeedback").hidden=true;$("spellNext").hidden=true;$("spellCheck").hidden=false;
+ $("spellAnswer").textContent=item.parts.map((part,i)=>i===item.missing?" __ ":part.toLowerCase()).join("  ");
+ const distractors=["BA","BO","BU","DA","DO","DU","FA","GA","GU","JI","KA","KI","LA","LE","LI","MA","MI","MO","NA","NE","NI","NO","PA","PE","PI","PO","RA","RE","RI","SA","SE","SI","TA","TE","TI","TO","TU","WA","YA","YAN","RU","TOR","MEN","WAT","KIS","MAN"];
+ let choices=[answer];
+ while(choices.length<4){const c=distractors[Math.floor(Math.random()*distractors.length)];if(!choices.includes(c))choices.push(c);}
+ for(let i=choices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[choices[i],choices[j]]=[choices[j],choices[i]];}
+ $("letterOptions").innerHTML=choices.map(c=>`<button class="option" data-syllable="${c.toLowerCase()}">${c.toLowerCase()}</button>`).join("");
+ $("letterOptions").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  $("letterOptions").querySelectorAll("button").forEach(x=>{x.style.background="";x.removeAttribute("data-chosen");});
+  chosenSyllable=b.dataset.syllable;b.dataset.chosen="yes";b.style.background="#ffe6a6";
+ });
+}
+$("spellCheck").onclick=()=>{
+ const item=syllableWords[si],answer=item.parts[item.missing].toLowerCase();
+ if(!chosenSyllable){$("spellFeedback").hidden=false;$("spellFeedback").className="feedback bad";$("spellFeedback").textContent="Pilih satu suku kata dahulu ya!";return;}
+ const ok=chosenSyllable===answer;
+ $("spellFeedback").hidden=false;$("spellFeedback").className="feedback "+(ok?"good":"bad");
+ if(ok){
+  score++;updateScore();
+  $("spellAnswer").textContent=item.parts.map(p=>p.toLowerCase()).join("  ");
+  $("spellFeedback").textContent="🌟 Betul! Suku kata "+answer+" melengkapkan perkataan "+item.word.toLowerCase()+".";
+  $("spellNext").hidden=false;$("spellCheck").hidden=true;
+ } else {
+  $("spellFeedback").textContent="Belum tepat. Cuba pilih suku kata yang lain!";
+ }
+};
+$("spellReset").onclick=()=>renderSpell();
+$("spellNext").onclick=()=>{if(si<syllableWords.length-1){si++;renderSpell();}else{$("spellPicture").textContent="🏆";$("spellAnswer").textContent="Tahniah! Semua suku kata telah dilengkapkan!";$("letterOptions").innerHTML="";$("spellFeedback").hidden=false;$("spellFeedback").className="feedback good";$("spellFeedback").textContent="Hebat, adik bijak!";$("spellNext").hidden=true;$("spellCheck").hidden=true;}};
+renderQuiz();renderSpell();
+</script>
+
+<script>
+(function(){
+  const startButton = document.getElementById("startLearning");
+  const nameInput = document.getElementById("studentName");
+  const gate = document.getElementById("nameGate");
+  const error = document.getElementById("nameError");
+  function startGame(){
+    const name = (nameInput.value || "").trim();
+    if (!name) {
+      error.hidden = false;
+      nameInput.focus();
+      return;
+    }
+    error.hidden = true;
+    try { localStorage.setItem("kerjayaNamaMurid", name); } catch(e) {}
+    gate.style.display = "none";
+    const header = document.querySelector("header");
+    if (header && !document.getElementById("studentNameDisplay")) {
+      const label = document.createElement("p");
+      label.id = "studentNameDisplay";
+      label.textContent = "Nama murid: " + name;
+      label.style.fontWeight = "bold";
+      header.appendChild(label);
+    }
+  }
+  startButton.addEventListener("click", startGame);
+  nameInput.addEventListener("keydown", function(e){ if(e.key === "Enter") startGame(); });
+  nameInput.focus();
+})();
+</script>
+\n
+<script>
+(function(){
+  const ADMIN_CODE = "2688";
+  const storeKey = "kerjayaAdminRecords";
+  function readRecords(){ try { return JSON.parse(localStorage.getItem(storeKey) || "{}"); } catch(e){ return {}; } }
+  function writeRecords(data){ try { localStorage.setItem(storeKey, JSON.stringify(data)); } catch(e){} }
+  function student(){ try { return (localStorage.getItem("kerjayaNamaMurid") || "").trim(); } catch(e){ return ""; } }
+  function recordActivity(activity, correct){
+    const name = student();
+    if(!name) return;
+    const all = readRecords();
+    if(!all[name]) all[name] = {kuiz:"-", alat:"-", misi:"-", total:0, updated:new Date().toLocaleString("ms-MY")};
+    all[name][activity] = correct + "/12";
+    all[name].total = ["kuiz","alat","misi"].reduce((n,k)=>n+(parseInt(all[name][k],10)||0),0);
+    all[name].updated = new Date().toLocaleString("ms-MY");
+    writeRecords(all);
+  }
+  // Admin UI
+  const adminTab = document.querySelector('[data-tab="admin"]');
+  if(adminTab) adminTab.addEventListener("click", function(){ renderAdmin(); });
+  document.getElementById("adminLoginBtn").addEventListener("click", function(){
+    const ok=document.getElementById("adminCode").value===ADMIN_CODE;
+    document.getElementById("adminLoginError").hidden=ok;
+    if(ok){
+      document.getElementById("adminLogin").hidden=true;
+      document.getElementById("adminDashboard").hidden=false;
+      renderAdmin();
+    }
+  });
+  document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("adminLoginBtn").click();});
+  document.getElementById("adminLogout").addEventListener("click",function(){
+    document.getElementById("adminDashboard").hidden=true;
+    document.getElementById("adminLogin").hidden=false;
+    document.getElementById("adminCode").value="";
+  });
+  document.getElementById("adminRefresh").addEventListener("click",renderAdmin);
+  function renderAdmin(){
+    if(document.getElementById("adminDashboard").hidden) return;
+    const data=readRecords(), names=Object.keys(data).sort((a,b)=>a.localeCompare(b,"ms"));
+    document.getElementById("adminStudentCount").textContent=names.length;
+    const totals=names.map(n=>data[n].total||0);
+    document.getElementById("adminAverage").textContent=totals.length?(totals.reduce((a,b)=>a+b,0)/totals.length).toFixed(1):"0";
+    document.getElementById("adminRows").innerHTML=names.length?names.map(n=>`<tr><td style="padding:10px;border:1px solid #d7e8f0">${escapeHtml(n)}</td><td style="padding:10px;border:1px solid #d7e8f0;text-align:center">${data[n].kuiz}</td><td style="padding:10px;border:1px solid #d7e8f0;text-align:center">${data[n].alat}</td><td style="padding:10px;border:1px solid #d7e8f0;text-align:center">${data[n].misi}</td><td style="padding:10px;border:1px solid #d7e8f0;text-align:center">${data[n].total}/36</td></tr>`).join(""):'<tr><td colspan="5" style="padding:12px;text-align:center">Belum ada rekod.</td></tr>';
+  }
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  document.getElementById("adminExport").addEventListener("click",function(){
+    const data=readRecords(), rows=[["Nama Murid","Kuiz","Teka Alat","Misi","Jumlah Betul"]];
+    Object.keys(data).sort().forEach(n=>rows.push([n,data[n].kuiz,data[n].alat,data[n].misi,data[n].total+"/36"]));
+    const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
+    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="rekod_murid_kerjaya.csv";a.click();URL.revokeObjectURL(a.href);
+  });
+})();
+</script>
+
+</body></html>
